@@ -203,7 +203,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                if (activeTab === 'RESEARCH LOGS') {
+                if (activeTab === 'RESEARCH_LOGS') {
                     return (
                         <>
                             <div className="flex items-center justify-between mb-6">
@@ -311,7 +311,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     </div>
 
                     <nav className="hidden md:flex gap-8 text-sm font-bold">
-                        {['RESEARCH LOGS', 'WHOAMI'].map((item) => (
+                        {['RESEARCH_LOGS', 'WHOAMI'].map((item) => (
                         <button 
                             key={item}
                             onClick={() => handleNavClick(item)}
