@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,11 +59,12 @@
     <script type="text/babel" data-type="module">
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
-        // Icons: Box für HTB, Flag für THM hinzugefügt
+        // Icons: Box for HTB, Flag for THM added
         import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink, Box, Flag } from 'lucide-react';
 
         const CyberBlog = () => {
-            const [activeTab, setActiveTab] = useState('LOGS');
+            // Initial state set to 'RESEARCH_LOGS' to match the nav items
+            const [activeTab, setActiveTab] = useState('RESEARCH_LOGS');
             const [selectedPost, setSelectedPost] = useState(null);
             const [glitch, setGlitch] = useState(false);
             const [terminalLines, setTerminalLines] = useState([
@@ -91,42 +92,42 @@
             const posts = [
                 {
                     id: 1,
-                    title: "Reentrancy in Sui Move: Eine Analyse",
+                    title: "Reentrancy in Sui Move: An Analysis",
                     date: "2025-09-10",
                     category: "Web3 Security",
                     tags: ["Sui", "Move", "Smart Contracts"],
-                    excerpt: "Anders als bei Solidity funktioniert das Speichermodell von Move objektbasiert. Dies verändert die Angriffsfläche für Reentrancy-Attacken drastisch...",
+                    excerpt: "Unlike Solidity, Move's storage model is object-based. This drastically changes the attack surface for reentrancy attacks...",
                     content: `
-                        <h2>Das Move Speichermodell</h2>
-                        <p>In Solidity ist Speicher global an den Contract gebunden. In Sui Move hingegen sind Ressourcen Objekte, die Adressen gehören. Das bedeutet, dass ein klassischer Reentrancy-Angriff, bei dem ein externer Call den internen State manipuliert bevor dieser aktualisiert wird, oft gar nicht möglich ist.</p>
+                        <h2>The Move Storage Model</h2>
+                        <p>In Solidity, storage is globally bound to the contract. In Sui Move, however, resources are objects owned by addresses. This means that a classic reentrancy attack, where an external call manipulates internal state before it is updated, is often not possible.</p>
                         
-                        <h2>Wo die Gefahr lauert</h2>
-                        <p>Dennoch gibt es Szenarien, insbesondere bei <code>dynamic fields</code> und geteilten Objekten, wo Race Conditions auftreten können. Wenn wir uns den folgenden Code ansehen:</p>
+                        <h2>Where the Danger Lurks</h2>
+                        <p>Nevertheless, there are scenarios, especially with <code>dynamic fields</code> and shared objects, where race conditions can occur. Looking at the following code:</p>
                         
                         <pre><code>public fun withdraw(balance: &mut Coin<SUI>, amount: u64, ctx: &mut TxContext) {
     // Vulnerable pattern analysis here...
 }</code></pre>
                         
-                        <p>Sui's "Simple Transaction" Modell schützt oft, aber bei komplexen DeFi Interaktionen müssen wir aufpassen.</p>
+                        <p>Sui's "Simple Transaction" model often protects us, but we must remain vigilant with complex DeFi interactions.</p>
                     `
                 },
                 {
                     id: 2,
-                    title: "Rust für Offensive Tooling",
+                    title: "Rust for Offensive Tooling",
                     date: "2025-08-22",
                     category: "Malware Analysis",
                     tags: ["Rust", "Low-Level", "Red Teaming"],
-                    excerpt: "Warum ich Python für bestimmte C2-Implants durch Rust ersetzt habe. Speichersicherheit trifft auf rohe Performance und kleine Binaries...",
+                    excerpt: "Why I replaced Python with Rust for certain C2 implants. Memory safety meets raw performance and small binaries...",
                     content: `
-                        <h2>Warum Rust?</h2>
-                        <p>Python ist großartig für Prototypen, aber das Deployment auf einem Zielsystem ist laut. PyInstaller generiert riesige Binaries, die von jedem AV sofort geflaggt werden.</p>
+                        <h2>Why Rust?</h2>
+                        <p>Python is great for prototyping, but deployment on a target system is noisy. PyInstaller generates huge binaries that are immediately flagged by any AV.</p>
                         
-                        <h2>Cross-Compilation Magie</h2>
-                        <p>Mit Rust kann ich von meinem Arch Linux System aus direkt für Windows targets kompilieren:</p>
+                        <h2>Cross-Compilation Magic</h2>
+                        <p>With Rust, I can compile directly for Windows targets from my Arch Linux system:</p>
                         <pre><code>cargo build --target x86_64-pc-windows-gnu --release</code></pre>
                         
-                        <h2>Memory Safety im Offense Bereich</h2>
-                        <p>Es klingt ironisch, aber Memory Safety hilft auch beim Schreiben von Malware. Weniger Crashes bedeuten stabilere Beacons.</p>
+                        <h2>Memory Safety in Offense</h2>
+                        <p>It sounds ironic, but memory safety also helps when writing malware. Fewer crashes mean more stable beacons.</p>
                     `
                 },
                 {
@@ -135,19 +136,19 @@
                     date: "2025-07-15",
                     category: "OS Security",
                     tags: ["Arch", "Linux", "Privacy"],
-                    excerpt: "Ein Minimal-Setup für Security Researcher. Kernel-Parameter, AppArmor-Profile und warum ich Hyprland für meinen Workflow nutze...",
+                    excerpt: "A minimal setup for security researchers. Kernel parameters, AppArmor profiles, and why I use Hyprland for my workflow...",
                     content: `
-                        <h2>Basis Installation</h2>
-                        <p>Ich starte immer mit dem Offline-Installer von EndeavourOS, um Bloat zu vermeiden. Das erste, was danach passiert, ist das Entfernen unnötiger Services.</p>
+                        <h2>Base Installation</h2>
+                        <p>I always start with the offline installer of EndeavourOS to avoid bloat. The first thing that happens afterward is removing unnecessary services.</p>
                         
                         <h2>Kernel Hardening</h2>
-                        <p>Füge diese Zeilen zu deiner <code>/etc/sysctl.d/99-security.conf</code> hinzu:</p>
+                        <p>Add these lines to your <code>/etc/sysctl.d/99-security.conf</code>:</p>
                         <pre><code>kernel.kptr_restrict=2
 kernel.dmesg_restrict=1
 net.ipv4.conf.all.log_martians=1</code></pre>
 
-                        <h2>Warum Hyprland?</h2>
-                        <p>Tiling Window Manager sind kein Hipster-Trend, sie sind Effizienz pur. Wenn ich Bug Bounties mache, brauche ich Burp Suite, Terminal und Code gleichzeitig im Blick. Hyprland auf Wayland liefert das ohne Screen Tearing.</p>
+                        <h2>Why Hyprland?</h2>
+                        <p>Tiling Window Managers aren't just a hipster trend; they are pure efficiency. When I'm doing bug bounties, I need Burp Suite, Terminal, and Code in view simultaneously. Hyprland on Wayland delivers this without screen tearing.</p>
                     `
                 }
             ];
@@ -254,8 +255,8 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                         <div className="border border-gray-800 bg-gray-900/30 p-8">
                             <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2"><Ghost className="text-pink-500"/> OPERATOR_PROFILE</h2>
                             <div className="space-y-4 text-gray-300 leading-relaxed">
-                                <p>Willkommen im Lab. Ich bin ein Security Researcher mit Fokus auf Web3 Technologien und Arch Linux Enthusiast.</p>
-                                <p>Mein Ziel ist es, die Sicherheitslücken in Smart Contracts (Sui/Move, Solidity) zu finden, bevor es andere tun. Wenn ich nicht gerade Contracts auditiere, optimiere ich mein Hyprland Setup oder schreibe Rust Tools.</p>
+                                <p>Welcome to the Lab. I am a Security Researcher focusing on Web3 technologies and an Arch Linux enthusiast.</p>
+                                <p>My goal is to find vulnerabilities in smart contracts (Sui/Move, Solidity) before others do. When I'm not auditing contracts, I'm optimizing my Hyprland setup or writing Rust tools.</p>
                                 <div className="mt-8 grid grid-cols-2 gap-4">
                                     <div className="p-4 border border-gray-700 bg-black/50">
                                         <h3 className="text-cyan-400 font-bold mb-2">LANGUAGES</h3>
@@ -299,7 +300,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                         className="flex items-center gap-3 cursor-pointer group"
                         onMouseEnter={() => setGlitch(true)}
                         onMouseLeave={() => setGlitch(false)}
-                        onClick={() => handleNavClick('LOGS')}
+                        onClick={() => handleNavClick('RESEARCH_LOGS')}
                     >
                         <Shield className={`w-8 h-8 text-pink-500 transition-transform ${glitch ? 'animate-pulse' : ''}`} />
                         <div>
