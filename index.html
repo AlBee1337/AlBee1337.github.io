@@ -59,8 +59,8 @@
     <script type="text/babel" data-type="module">
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
-        // Icons
-        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink, Box, Flag } from 'lucide-react';
+        // Icons - Bereinigt (nur benutzte Icons)
+        import { Terminal, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Ghost, Box, Flag, Shield } from 'lucide-react';
 
         // --- CUSTOM BEE SVG ICON ---
         const BeeIcon = ({ className }) => (
@@ -122,18 +122,66 @@
                 return () => clearInterval(interval);
             }, []);
 
-            // Hier war der Fehler: Das Array und die Strings sind jetzt sauber geschlossen
             const posts = [
                 {
                     id: 1,
-                    title: "In Progress",
-                    date: "tbd",
+                    title: "Reentrancy in Sui Move: An Analysis",
+                    date: "2025-09-10",
                     category: "Web3 Security",
-                    tags: ["EVM", "Solidity", "Smart Contracts"],
-                    excerpt: "Research currently in progress...",
+                    tags: ["Sui", "Move", "Smart Contracts"],
+                    excerpt: "Unlike Solidity, Move's storage model is object-based. This drastically changes the attack surface for reentrancy attacks...",
                     content: `
-                        <h2>In Progress</h2>
-                        <p>This article is currently being written.</p>
+                        <h2>The Move Storage Model</h2>
+                        <p>In Solidity, storage is globally bound to the contract. In Sui Move, however, resources are objects owned by addresses. This means that a classic reentrancy attack, where an external call manipulates internal state before it is updated, is often not possible.</p>
+                        
+                        <h2>Where the Danger Lurks</h2>
+                        <p>Nevertheless, there are scenarios, especially with <code>dynamic fields</code> and shared objects, where race conditions can occur. Looking at the following code:</p>
+                        
+                        <pre><code>public fun withdraw(balance: &mut Coin<SUI>, amount: u64, ctx: &mut TxContext) {
+    // Vulnerable pattern analysis here...
+}</code></pre>
+                        
+                        <p>Sui's "Simple Transaction" model often protects us, but we must remain vigilant with complex DeFi interactions.</p>
+                    `
+                },
+                {
+                    id: 2,
+                    title: "Rust for Offensive Tooling",
+                    date: "2025-08-22",
+                    category: "Malware Analysis",
+                    tags: ["Rust", "Low-Level", "Red Teaming"],
+                    excerpt: "Why I replaced Python with Rust for certain C2 implants. Memory safety meets raw performance and small binaries...",
+                    content: `
+                        <h2>Why Rust?</h2>
+                        <p>Python is great for prototyping, but deployment on a target system is noisy. PyInstaller generates huge binaries that are immediately flagged by any AV.</p>
+                        
+                        <h2>Cross-Compilation Magic</h2>
+                        <p>With Rust, I can compile directly for Windows targets from my Arch Linux system:</p>
+                        <pre><code>cargo build --target x86_64-pc-windows-gnu --release</code></pre>
+                        
+                        <h2>Memory Safety in Offense</h2>
+                        <p>It sounds ironic, but memory safety also helps when writing malware. Fewer crashes mean more stable beacons.</p>
+                    `
+                },
+                {
+                    id: 3,
+                    title: "Endeavour OS Hardening Guide",
+                    date: "2025-07-15",
+                    category: "OS Security",
+                    tags: ["Arch", "Linux", "Privacy"],
+                    excerpt: "A minimal setup for security researchers. Kernel parameters, AppArmor profiles, and why I use Hyprland for my workflow...",
+                    content: `
+                        <h2>Base Installation</h2>
+                        <p>I always start with the offline installer of EndeavourOS to avoid bloat. The first thing that happens afterward is removing unnecessary services.</p>
+                        
+                        <h2>Kernel Hardening</h2>
+                        <p>Add these lines to your <code>/etc/sysctl.d/99-security.conf</code>:</p>
+                        <pre><code>kernel.kptr_restrict=2
+kernel.dmesg_restrict=1
+net.ipv4.conf.all.log_martians=1</code></pre>
+
+                        <h2>Why Hyprland?</h2>
+                        <p>Tiling Window Managers aren't just a hipster trend; they are pure efficiency. When I'm doing bug bounties, I need Burp Suite, Terminal, and Code in view simultaneously. Hyprland on Wayland delivers this without screen tearing.</p>
                     `
                 }
             ];
