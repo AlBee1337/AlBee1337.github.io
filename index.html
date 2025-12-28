@@ -144,47 +144,8 @@
                         
                         <p>Sui's "Simple Transaction" model often protects us, but we must remain vigilant with complex DeFi interactions.</p>
                     `
-                },
-                {
-                    id: 2,
-                    title: "Rust for Offensive Tooling",
-                    date: "2025-08-22",
-                    category: "Malware Analysis",
-                    tags: ["Rust", "Low-Level", "Red Teaming"],
-                    excerpt: "Why I replaced Python with Rust for certain C2 implants. Memory safety meets raw performance and small binaries...",
-                    content: `
-                        <h2>Why Rust?</h2>
-                        <p>Python is great for prototyping, but deployment on a target system is noisy. PyInstaller generates huge binaries that are immediately flagged by any AV.</p>
-                        
-                        <h2>Cross-Compilation Magic</h2>
-                        <p>With Rust, I can compile directly for Windows targets from my Arch Linux system:</p>
-                        <pre><code>cargo build --target x86_64-pc-windows-gnu --release</code></pre>
-                        
-                        <h2>Memory Safety in Offense</h2>
-                        <p>It sounds ironic, but memory safety also helps when writing malware. Fewer crashes mean more stable beacons.</p>
-                    `
-                },
-                {
-                    id: 3,
-                    title: "Endeavour OS Hardening Guide",
-                    date: "2025-07-15",
-                    category: "OS Security",
-                    tags: ["Arch", "Linux", "Privacy"],
-                    excerpt: "A minimal setup for security researchers. Kernel parameters, AppArmor profiles, and why I use Hyprland for my workflow...",
-                    content: `
-                        <h2>Base Installation</h2>
-                        <p>I always start with the offline installer of EndeavourOS to avoid bloat. The first thing that happens afterward is removing unnecessary services.</p>
-                        
-                        <h2>Kernel Hardening</h2>
-                        <p>Add these lines to your <code>/etc/sysctl.d/99-security.conf</code>:</p>
-                        <pre><code>kernel.kptr_restrict=2
-kernel.dmesg_restrict=1
-net.ipv4.conf.all.log_martians=1</code></pre>
-
-                        <h2>Why Hyprland?</h2>
-                        <p>Tiling Window Managers aren't just a hipster trend; they are pure efficiency. When I'm doing bug bounties, I need Burp Suite, Terminal, and Code in view simultaneously. Hyprland on Wayland delivers this without screen tearing.</p>
-                    `
                 }
+        
             ];
 
             const handleNavClick = (tab) => {
