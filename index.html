@@ -97,7 +97,6 @@
         );
 
         const CyberBlog = () => {
-            // Initial state set to 'RESEARCH_LOGS' to match the nav items
             const [activeTab, setActiveTab] = useState('RESEARCH_LOGS');
             const [selectedPost, setSelectedPost] = useState(null);
             const [glitch, setGlitch] = useState(false);
@@ -123,6 +122,7 @@
                 return () => clearInterval(interval);
             }, []);
 
+            // Hier war der Fehler: Das Array und die Strings sind jetzt sauber geschlossen
             const posts = [
                 {
                     id: 1,
@@ -130,11 +130,12 @@
                     date: "tbd",
                     category: "Web3 Security",
                     tags: ["EVM", "Solidity", "Smart Contracts"],
-                    excerpt: "In Progress",
+                    excerpt: "Research currently in progress...",
                     content: `
                         <h2>In Progress</h2>
+                        <p>This article is currently being written.</p>
+                    `
                 }
-        
             ];
 
             const handleNavClick = (tab) => {
@@ -291,107 +292,8 @@
                 }
             };
 
-            return (
-                <div className="min-h-screen relative">
-                {/* Background Grid */}
-                <div className="fixed inset-0 pointer-events-none z-0 opacity-20" 
-                    style={{ 
-                        backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
-                        backgroundSize: '100% 2px, 3px 100%'
-                    }}>
-                </div>
-                
-                {/* Header - Z-Index auf 50 erhöht und relative entfernt (da sticky reicht) */}
-                <header className="sticky top-0 z-50 border-b-2 border-pink-600 bg-gray-900/90 backdrop-blur-sm">
-                    <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <div 
-                        className="flex items-center gap-3 cursor-pointer group"
-                        onMouseEnter={() => setGlitch(true)}
-                        onMouseLeave={() => setGlitch(false)}
-                        onClick={() => handleNavClick('RESEARCH_LOGS')}
-                    >
-                        {/* Custom Bee Icon embedded here */}
-                        <BeeIcon className={`w-8 h-8 text-pink-500 transition-transform ${glitch ? 'animate-pulse' : ''}`} />
-                        <div>
-                        <h1 className="text-2xl font-bold tracking-tighter text-white" style={{ textShadow: '2px 2px 0px #ff00ff' }}>
-                            ALBEE_BLOG
-                        </h1>
-                        </div>
-                    </div>
-
-                    <nav className="hidden md:flex gap-8 text-sm font-bold">
-                        {['RESEARCH_LOGS', 'WHOAMI'].map((item) => (
-                        <button 
-                            key={item}
-                            onClick={() => handleNavClick(item)}
-                            className={`hover:text-pink-500 hover:underline decoration-2 underline-offset-4 transition-all ${activeTab === item ? 'text-pink-500 underline' : 'text-gray-400'}`}
-                        >
-                            [{item}]
-                        </button>
-                        ))}
-                    </nav>
-                    </div>
-                </header>
-
-                <main className="relative z-10 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    
-                    {/* Sidebar */}
-                    <aside className="lg:col-span-4 space-y-8">
-                    <div className="border border-cyan-500/30 bg-gray-900/50 p-6 relative">
-                        <div className="flex items-center gap-4 mb-4">
-                        {/* Profile Image Section Updated */}
-                        <div className="w-16 h-16 bg-gray-800 border-2 border-pink-500 rounded-full overflow-hidden">
-                             <img src="./albee.png" alt="AlBee Profile" className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold text-white">AlBee</h2>
-                            <p className="text-sm text-gray-400">Web3 | Intelligence | Hunting | Hacking</p>
-                        </div>
-                        </div>
-                        
-                        <div className="space-y-2 text-sm text-gray-300">
-                        <div className="flex justify-between border-b border-gray-800 pb-1"><span>Whoami:</span><span className="text-pink-400">AlBee</span></div>
-                        <div className="flex justify-between border-b border-gray-800 pb-1"><span>Status:</span><span className="text-green-400 animate-pulse">HUNTING</span></div>
-                        </div>
-
-                        {/* Social Icons Fixed: Box for HTB, Flag for THM */}
-                         <div className="mt-6 flex gap-4 justify-center">
-                            <Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" />
-                            <Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" />
-                            <Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box" />
-                            <Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" />
-                        </div>
-                    </div>
-
-                    {/* Terminal */}
-                    <div className="border border-gray-700 bg-black p-4 font-mono text-xs h-64 overflow-hidden shadow-[0_0_15px_rgba(0,255,255,0.1)]">
-                        <div className="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
-                        <span className="text-gray-500 flex items-center gap-2"><Terminal size={12}/> /var/log/syslog</span>
-                        </div>
-                        <div className="space-y-1 text-green-500/80">
-                        {terminalLines.map((line, i) => (
-                            <div key={i} className="opacity-80">{line}</div>
-                        ))}
-                        <div className="animate-pulse">_</div>
-                        </div>
-                    </div>
-                    </aside>
-
-                    {/* Dynamic Content Section */}
-                    <section className="lg:col-span-8">
-                        {renderContent()}
-                    </section>
-                </main>
-                
-                <footer className="border-t border-gray-800 bg-gray-900 mt-12 py-8 text-center text-xs text-gray-500">
-                    <p>RESEARCH CONNECTION ESTABLISHED</p>
-                </footer>
-                </div>
-            );
-        };
-
-        const root = createRoot(document.getElementById('root'));
-        root.render(<CyberBlog />);
+            const root = createRoot(document.getElementById('root'));
+            root.render(<CyberBlog />);
     </script>
 </body>
 </html>
