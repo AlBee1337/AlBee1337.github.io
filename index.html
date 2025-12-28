@@ -30,6 +30,14 @@
         ::-webkit-scrollbar-thumb { background: #333; border: 1px solid #06b6d4; }
         ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
         body { background-color: #000; }
+        
+        /* Markdown-Simulation Styles */
+        .prose-cyber h2 { color: #fff; font-size: 1.5rem; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; border-left: 4px solid #ec4899; padding-left: 1rem; }
+        .prose-cyber p { margin-bottom: 1.5rem; line-height: 1.7; color: #d1d5db; }
+        .prose-cyber code { background: #1f2937; color: #22d3ee; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: monospace; }
+        .prose-cyber pre { background: #111827; padding: 1rem; border: 1px solid #374151; overflow-x: auto; margin-bottom: 1.5rem; }
+        .prose-cyber ul { list-style: square; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #9ca3af; }
+        .prose-cyber li::marker { color: #ec4899; }
     </style>
 </head>
 <body class="bg-black text-cyan-400 font-mono selection:bg-pink-600 selection:text-white overflow-x-hidden">
@@ -56,10 +64,11 @@
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
         // Icons direkt importieren
-        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, Github, Twitter, Layers, Code, Ghost } from 'lucide-react';
+        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink } from 'lucide-react';
 
         const CyberBlog = () => {
-            const [activeTab, setActiveTab] = useState('home');
+            const [activeTab, setActiveTab] = useState('LOGS');
+            const [selectedPost, setSelectedPost] = useState(null);
             const [glitch, setGlitch] = useState(false);
             const [terminalLines, setTerminalLines] = useState([
                 "> SYSTEM_INIT...",
@@ -83,6 +92,7 @@
                 return () => clearInterval(interval);
             }, []);
 
+            // Erweiterte Daten mit Content (HTML simulation)
             const posts = [
                 {
                     id: 1,
@@ -90,7 +100,20 @@
                     date: "2025-09-10",
                     category: "Web3 Security",
                     tags: ["Sui", "Move", "Smart Contracts"],
-                    excerpt: "Anders als bei Solidity funktioniert das Speichermodell von Move objektbasiert. Dies verändert die Angriffsfläche für Reentrancy-Attacken drastisch..."
+                    excerpt: "Anders als bei Solidity funktioniert das Speichermodell von Move objektbasiert. Dies verändert die Angriffsfläche für Reentrancy-Attacken drastisch...",
+                    content: `
+                        <h2>Das Move Speichermodell</h2>
+                        <p>In Solidity ist Speicher global an den Contract gebunden. In Sui Move hingegen sind Ressourcen Objekte, die Adressen gehören. Das bedeutet, dass ein klassischer Reentrancy-Angriff, bei dem ein externer Call den internen State manipuliert bevor dieser aktualisiert wird, oft gar nicht möglich ist.</p>
+                        
+                        <h2>Wo die Gefahr lauert</h2>
+                        <p>Dennoch gibt es Szenarien, insbesondere bei <code>dynamic fields</code> und geteilten Objekten, wo Race Conditions auftreten können. Wenn wir uns den folgenden Code ansehen:</p>
+                        
+                        <pre><code>public fun withdraw(balance: &mut Coin<SUI>, amount: u64, ctx: &mut TxContext) {
+    // Vulnerable pattern analysis here...
+}</code></pre>
+                        
+                        <p>Sui's "Simple Transaction" Modell schützt oft, aber bei komplexen DeFi Interaktionen müssen wir aufpassen.</p>
+                    `
                 },
                 {
                     id: 2,
@@ -98,7 +121,18 @@
                     date: "2025-08-22",
                     category: "Malware Analysis",
                     tags: ["Rust", "Low-Level", "Red Teaming"],
-                    excerpt: "Warum ich Python für bestimmte C2-Implants durch Rust ersetzt habe. Speichersicherheit trifft auf rohe Performance und kleine Binaries..."
+                    excerpt: "Warum ich Python für bestimmte C2-Implants durch Rust ersetzt habe. Speichersicherheit trifft auf rohe Performance und kleine Binaries...",
+                    content: `
+                        <h2>Warum Rust?</h2>
+                        <p>Python ist großartig für Prototypen, aber das Deployment auf einem Zielsystem ist laut. PyInstaller generiert riesige Binaries, die von jedem AV sofort geflaggt werden.</p>
+                        
+                        <h2>Cross-Compilation Magie</h2>
+                        <p>Mit Rust kann ich von meinem Arch Linux System aus direkt für Windows targets kompilieren:</p>
+                        <pre><code>cargo build --target x86_64-pc-windows-gnu --release</code></pre>
+                        
+                        <h2>Memory Safety im Offense Bereich</h2>
+                        <p>Es klingt ironisch, aber Memory Safety hilft auch beim Schreiben von Malware. Weniger Crashes bedeuten stabilere Beacons.</p>
+                    `
                 },
                 {
                     id: 3,
@@ -106,9 +140,188 @@
                     date: "2025-07-15",
                     category: "OS Security",
                     tags: ["Arch", "Linux", "Privacy"],
-                    excerpt: "Ein Minimal-Setup für Security Researcher. Kernel-Parameter, AppArmor-Profile und warum ich Hyprland für meinen Workflow nutze..."
+                    excerpt: "Ein Minimal-Setup für Security Researcher. Kernel-Parameter, AppArmor-Profile und warum ich Hyprland für meinen Workflow nutze...",
+                    content: `
+                        <h2>Basis Installation</h2>
+                        <p>Ich starte immer mit dem Offline-Installer von EndeavourOS, um Bloat zu vermeiden. Das erste, was danach passiert, ist das Entfernen unnötiger Services.</p>
+                        
+                        <h2>Kernel Hardening</h2>
+                        <p>Füge diese Zeilen zu deiner <code>/etc/sysctl.d/99-security.conf</code> hinzu:</p>
+                        <pre><code>kernel.kptr_restrict=2
+kernel.dmesg_restrict=1
+net.ipv4.conf.all.log_martians=1</code></pre>
+
+                        <h2>Warum Hyprland?</h2>
+                        <p>Tiling Window Manager sind kein Hipster-Trend, sie sind Effizienz pur. Wenn ich Bug Bounties mache, brauche ich Burp Suite, Terminal und Code gleichzeitig im Blick. Hyprland auf Wayland liefert das ohne Screen Tearing.</p>
+                    `
                 }
             ];
+
+            // Funktion zum Wechseln der Ansicht
+            const handleNavClick = (tab) => {
+                setActiveTab(tab);
+                setSelectedPost(null); // Reset post view wenn man Tab wechselt
+            };
+
+            const handlePostClick = (post) => {
+                setSelectedPost(post);
+                window.scrollTo(0,0);
+            };
+
+            const handleBack = () => {
+                setSelectedPost(null);
+            };
+
+            // Views Rendering Logic
+            const renderContent = () => {
+                // 1. Detailansicht eines Posts
+                if (selectedPost) {
+                    return (
+                        <div className="animate-in fade-in duration-300">
+                            <button 
+                                onClick={handleBack}
+                                className="mb-6 text-sm flex items-center gap-2 text-pink-500 hover:text-white transition-colors font-bold uppercase tracking-widest"
+                            >
+                                <ChevronLeft size={16} /> Back_to_Logs
+                            </button>
+
+                            <article className="border border-gray-800 bg-gray-900/30 p-8 relative overflow-hidden">
+                                {/* Header des Artikels */}
+                                <div className="border-b border-gray-800 pb-6 mb-8">
+                                    <div className="flex flex-wrap gap-4 items-center text-xs text-gray-500 mb-4 uppercase tracking-widest">
+                                        <span className="flex items-center gap-1 text-pink-400"><Layers size={12}/> {selectedPost.category}</span>
+                                        <span>//</span>
+                                        <span>{selectedPost.date}</span>
+                                    </div>
+                                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                                        {selectedPost.title}
+                                    </h1>
+                                    <div className="flex gap-2">
+                                        {selectedPost.tags.map(tag => (
+                                            <span key={tag} className="text-xs bg-gray-800 text-cyan-300/70 px-2 py-1 rounded-sm border border-cyan-900/30">#{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Inhalt (Simuliertes HTML Rendering) */}
+                                <div 
+                                    className="prose-cyber text-gray-300"
+                                    dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                                />
+                            </article>
+                        </div>
+                    );
+                }
+
+                // 2. Tab: LOGS (Home / Blog Liste)
+                if (activeTab === 'LOGS') {
+                    return (
+                        <>
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+                                <Hash className="text-pink-500" />
+                                RESEARCH_LOGS
+                                </h2>
+                            </div>
+
+                            <div className="grid gap-6">
+                                {posts.map((post) => (
+                                <article key={post.id} className="group border border-gray-800 bg-gray-900/30 hover:bg-gray-900 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden p-6">
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                    <Layers size={12} className="text-pink-500"/>
+                                    <span className="uppercase">{post.category}</span>
+                                    <span className="text-gray-700">|</span>
+                                    <span>{post.date}</span>
+                                    </div>
+
+                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                                    {post.title}
+                                    </h3>
+                                    
+                                    <p className="text-gray-400 mb-4">{post.excerpt}</p>
+
+                                    <div className="flex justify-between items-center mt-6">
+                                    <div className="flex gap-2">
+                                        {post.tags.map(tag => (
+                                        <span key={tag} className="text-xs bg-gray-800 text-cyan-300/70 px-2 py-0.5 rounded-sm">#{tag}</span>
+                                        ))}
+                                    </div>
+                                    <button 
+                                        onClick={() => handlePostClick(post)}
+                                        className="text-sm flex items-center gap-1 text-pink-500 hover:text-white transition-colors font-bold cursor-pointer"
+                                    >
+                                        READ_ENTRY <ChevronRight size={16} />
+                                    </button>
+                                    </div>
+                                </article>
+                                ))}
+                            </div>
+                        </>
+                    );
+                }
+
+                // 3. Tab: ABOUT
+                if (activeTab === 'ABOUT') {
+                    return (
+                        <div className="border border-gray-800 bg-gray-900/30 p-8">
+                            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2"><Ghost className="text-pink-500"/> OPERATOR_PROFILE</h2>
+                            <div className="space-y-4 text-gray-300 leading-relaxed">
+                                <p>Willkommen im Lab. Ich bin ein Security Researcher mit Fokus auf Web3 Technologien und Arch Linux Enthusiast.</p>
+                                <p>Mein Ziel ist es, die Sicherheitslücken in Smart Contracts (Sui/Move, Solidity) zu finden, bevor es andere tun. Wenn ich nicht gerade Contracts auditiere, optimiere ich mein Hyprland Setup oder schreibe Rust Tools.</p>
+                                <div className="mt-8 grid grid-cols-2 gap-4">
+                                    <div className="p-4 border border-gray-700 bg-black/50">
+                                        <h3 className="text-cyan-400 font-bold mb-2">LANGUAGES</h3>
+                                        <ul className="text-sm space-y-1">
+                                            <li>> Rust</li>
+                                            <li>> Solidity</li>
+                                            <li>> Move (Sui)</li>
+                                            <li>> Python</li>
+                                        </ul>
+                                    </div>
+                                    <div className="p-4 border border-gray-700 bg-black/50">
+                                        <h3 className="text-pink-400 font-bold mb-2">INTERESTS</h3>
+                                        <ul className="text-sm space-y-1">
+                                            <li>> Bug Bounties</li>
+                                            <li>> Malware Analysis</li>
+                                            <li>> OS Hardening</li>
+                                            <li>> DeFi Sec</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+
+                // 4. Tab: VULN_DB (Platzhalter)
+                if (activeTab === 'VULN_DB') {
+                    return (
+                        <div className="text-center py-20 border border-gray-800 border-dashed">
+                            <Activity className="w-16 h-16 text-gray-700 mx-auto mb-4 animate-pulse"/>
+                            <h2 className="text-xl font-bold text-gray-500">DATABASE_LOCKED</h2>
+                            <p className="text-gray-600 mt-2">Access Level insufficient. Please authenticate via PGP.</p>
+                        </div>
+                    );
+                }
+
+                // 5. Tab: KEYS
+                if (activeTab === 'KEYS') {
+                    return (
+                        <div className="border border-gray-800 bg-gray-900/30 p-8 font-mono text-xs break-all">
+                             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2"><Key className="text-pink-500"/> PGP_PUBLIC_KEY</h2>
+                             <div className="bg-black p-4 text-green-500 border border-green-900/30">
+                                 -----BEGIN PGP PUBLIC KEY BLOCK-----<br/><br/>
+                                 mQINBGT... (HIER DEINEN KEY EINFÜGEN) ...<br/>
+                                 ...<br/>
+                                 -----END PGP PUBLIC KEY BLOCK-----
+                             </div>
+                             <button className="mt-4 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 font-bold flex items-center gap-2">
+                                 <ExternalLink size={14}/> COPY_TO_CLIPBOARD
+                             </button>
+                        </div>
+                    );
+                }
+            };
 
             return (
                 <div className="min-h-screen relative">
@@ -127,7 +340,7 @@
                         className="flex items-center gap-3 cursor-pointer group"
                         onMouseEnter={() => setGlitch(true)}
                         onMouseLeave={() => setGlitch(false)}
-                        onClick={() => setActiveTab('home')}
+                        onClick={() => handleNavClick('LOGS')}
                     >
                         <Shield className={`w-8 h-8 text-pink-500 transition-transform ${glitch ? 'animate-pulse' : ''}`} />
                         <div>
@@ -142,8 +355,8 @@
                         {['LOGS', 'ABOUT', 'VULN_DB', 'KEYS'].map((item) => (
                         <button 
                             key={item}
-                            onClick={() => setActiveTab(item === 'LOGS' ? 'home' : item.toLowerCase())}
-                            className="hover:text-pink-500 hover:underline decoration-2 underline-offset-4 transition-all"
+                            onClick={() => handleNavClick(item)}
+                            className={`hover:text-pink-500 hover:underline decoration-2 underline-offset-4 transition-all ${activeTab === item ? 'text-pink-500 underline' : 'text-gray-400'}`}
                         >
                             [{item}]
                         </button>
@@ -171,6 +384,12 @@
                         <div className="flex justify-between border-b border-gray-800 pb-1"><span>OS:</span><span className="text-pink-400">Endeavour OS</span></div>
                         <div className="flex justify-between border-b border-gray-800 pb-1"><span>Status:</span><span className="text-green-400 animate-pulse">ONLINE</span></div>
                         </div>
+
+                         <div className="mt-6 flex gap-4 justify-center">
+                            <Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                            <Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                            <Fingerprint className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                        </div>
                     </div>
 
                     {/* Terminal */}
@@ -187,44 +406,9 @@
                     </div>
                     </aside>
 
-                    {/* Content */}
+                    {/* Dynamic Content Section */}
                     <section className="lg:col-span-8">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
-                        <Hash className="text-pink-500" />
-                        LATEST_INTEL
-                        </h2>
-                    </div>
-
-                    <div className="grid gap-6">
-                        {posts.map((post) => (
-                        <article key={post.id} className="group border border-gray-800 bg-gray-900/30 hover:bg-gray-900 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden p-6">
-                            <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                            <Layers size={12} className="text-pink-500"/>
-                            <span className="uppercase">{post.category}</span>
-                            <span className="text-gray-700">|</span>
-                            <span>{post.date}</span>
-                            </div>
-
-                            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-                            {post.title}
-                            </h3>
-                            
-                            <p className="text-gray-400 mb-4">{post.excerpt}</p>
-
-                            <div className="flex justify-between items-center mt-6">
-                            <div className="flex gap-2">
-                                {post.tags.map(tag => (
-                                <span key={tag} className="text-xs bg-gray-800 text-cyan-300/70 px-2 py-0.5 rounded-sm">#{tag}</span>
-                                ))}
-                            </div>
-                            <button className="text-sm flex items-center gap-1 text-pink-500 hover:text-white transition-colors font-bold">
-                                READ_ENTRY <ChevronRight size={16} />
-                            </button>
-                            </div>
-                        </article>
-                        ))}
-                    </div>
+                        {renderContent()}
                     </section>
                 </main>
                 
