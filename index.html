@@ -304,25 +304,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                // 5. Tab: KEYS
-                if (activeTab === 'KEYS') {
-                    return (
-                        <div className="border border-gray-800 bg-gray-900/30 p-8 font-mono text-xs break-all">
-                             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2"><Key className="text-pink-500"/> PGP_PUBLIC_KEY</h2>
-                             <div className="bg-black p-4 text-green-500 border border-green-900/30">
-                                 -----BEGIN PGP PUBLIC KEY BLOCK-----<br/><br/>
-                                 mQINBGT... (HIER DEINEN KEY EINFÜGEN) ...<br/>
-                                 ...<br/>
-                                 -----END PGP PUBLIC KEY BLOCK-----
-                             </div>
-                             <button className="mt-4 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 font-bold flex items-center gap-2">
-                                 <ExternalLink size={14}/> COPY_TO_CLIPBOARD
-                             </button>
-                        </div>
-                    );
-                }
-            };
-
             return (
                 <div className="min-h-screen relative">
                 {/* Background Grid */}
@@ -415,7 +396,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                 </main>
                 
                 <footer className="border-t border-gray-800 bg-gray-900 mt-12 py-8 text-center text-xs text-gray-500">
-                    <p>ENCRYPTED CONNECTION ESTABLISHED</p>
+                    <p>RESEARCH CONNECTION ESTABLISHED</p>
                 </footer>
                 </div>
             );
