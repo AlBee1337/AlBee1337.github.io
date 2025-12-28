@@ -293,8 +293,8 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     }}>
                 </div>
                 
-                {/* Header */}
-                <header className="relative z-10 border-b-2 border-pink-600 bg-gray-900/90 backdrop-blur-sm sticky top-0">
+                {/* Header - Z-Index auf 50 erhöht und relative entfernt (da sticky reicht) */}
+                <header className="sticky top-0 z-50 border-b-2 border-pink-600 bg-gray-900/90 backdrop-blur-sm">
                     <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                     <div 
                         className="flex items-center gap-3 cursor-pointer group"
