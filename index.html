@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0x_RESEARCH_LAB // SECURITY_BLOG</title>
+    
+    <!-- 1. Tailwind CSS via CDN (Kein Build nötig) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyan: { 400: '#22d3ee', 500: '#06b6d4', 900: '#164e63' },
+                        pink: { 400: '#f472b6', 500: '#ec4899', 600: '#db2777' },
+                    },
+                    fontFamily: {
+                        mono: ['Courier New', 'Courier', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Scrollbar für den Arch-Look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border: 1px solid #06b6d4; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        body { background-color: #000; }
+    </style>
+</head>
+<body class="bg-black text-cyan-400 font-mono selection:bg-pink-600 selection:text-white overflow-x-hidden">
+    
+    <!-- Hier wird die React App reingerendert -->
+    <div id="root"></div>
+
+    <!-- 2. Import Map: Damit der Browser weiß, woher er React laden soll -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "lucide-react": "https://esm.sh/lucide-react@0.292.0"
+        }
+    }
+    </script>
+
+    <!-- 3. Babel Standalone: Übersetzt JSX im Browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 4. Deine App Logik -->
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect } from 'react';
+        import { createRoot } from 'react-dom/client';
+        // Icons direkt importieren
+        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, Github, Twitter, Layers, Code, Ghost } from 'lucide-react';
+
+        const CyberBlog = () => {
+            const [activeTab, setActiveTab] = useState('home');
+            const [glitch, setGlitch] = useState(false);
+            const [terminalLines, setTerminalLines] = useState([
+                "> SYSTEM_INIT...",
+                "> KERNEL: 6.8.9-arch1-1",
+                "> LOADING_MODULES: [RUST, MOVE, ETH]...",
+                "> TARGET_ACQUIRED: LOCALHOST"
+            ]);
+
+            useEffect(() => {
+                const interval = setInterval(() => {
+                const phrases = [
+                    "> SCANNING_MEMPOOL...",
+                    "> DETECTED_ANOMALY: 0x4F...",
+                    "> WAGMI_PROTOCOL: ACTIVE",
+                    "> HASH_RATE: STABLE",
+                    "> NEW_BLOCK_HEADER_RECEIVED"
+                ];
+                const newLine = phrases[Math.floor(Math.random() * phrases.length)];
+                setTerminalLines(prev => [...prev.slice(-4), newLine]);
+                }, 4000);
+                return () => clearInterval(interval);
+            }, []);
+
+            const posts = [
+                {
+                    id: 1,
+                    title: "Reentrancy in Sui Move: Eine Analyse",
+                    date: "2025-09-10",
+                    category: "Web3 Security",
+                    tags: ["Sui", "Move", "Smart Contracts"],
+                    excerpt: "Anders als bei Solidity funktioniert das Speichermodell von Move objektbasiert. Dies verändert die Angriffsfläche für Reentrancy-Attacken drastisch..."
+                },
+                {
+                    id: 2,
+                    title: "Rust für Offensive Tooling",
+                    date: "2025-08-22",
+                    category: "Malware Analysis",
+                    tags: ["Rust", "Low-Level", "Red Teaming"],
+                    excerpt: "Warum ich Python für bestimmte C2-Implants durch Rust ersetzt habe. Speichersicherheit trifft auf rohe Performance und kleine Binaries..."
+                },
+                {
+                    id: 3,
+                    title: "Endeavour OS Hardening Guide",
+                    date: "2025-07-15",
+                    category: "OS Security",
+                    tags: ["Arch", "Linux", "Privacy"],
+                    excerpt: "Ein Minimal-Setup für Security Researcher. Kernel-Parameter, AppArmor-Profile und warum ich Hyprland für meinen Workflow nutze..."
+                }
+            ];
+
+            return (
+                <div className="min-h-screen relative">
+                {/* Background Grid */}
+                <div className="fixed inset-0 pointer-events-none z-0 opacity-20" 
+                    style={{ 
+                        backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+                        backgroundSize: '100% 2px, 3px 100%'
+                    }}>
+                </div>
+                
+                {/* Header */}
+                <header className="relative z-10 border-b-2 border-pink-600 bg-gray-900/90 backdrop-blur-sm sticky top-0">
+                    <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                    <div 
+                        className="flex items-center gap-3 cursor-pointer group"
+                        onMouseEnter={() => setGlitch(true)}
+                        onMouseLeave={() => setGlitch(false)}
+                        onClick={() => setActiveTab('home')}
+                    >
+                        <Shield className={`w-8 h-8 text-pink-500 transition-transform ${glitch ? 'animate-pulse' : ''}`} />
+                        <div>
+                        <h1 className="text-2xl font-bold tracking-tighter text-white" style={{ textShadow: '2px 2px 0px #ff00ff' }}>
+                            0x_RESEARCH_LAB
+                        </h1>
+                        <p className="text-xs text-pink-400 tracking-widest">WEB3 // INTELLIGENCE // SEC</p>
+                        </div>
+                    </div>
+
+                    <nav className="hidden md:flex gap-8 text-sm font-bold">
+                        {['LOGS', 'ABOUT', 'VULN_DB', 'KEYS'].map((item) => (
+                        <button 
+                            key={item}
+                            onClick={() => setActiveTab(item === 'LOGS' ? 'home' : item.toLowerCase())}
+                            className="hover:text-pink-500 hover:underline decoration-2 underline-offset-4 transition-all"
+                        >
+                            [{item}]
+                        </button>
+                        ))}
+                    </nav>
+                    </div>
+                </header>
+
+                <main className="relative z-10 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    {/* Sidebar */}
+                    <aside className="lg:col-span-4 space-y-8">
+                    <div className="border border-cyan-500/30 bg-gray-900/50 p-6 relative">
+                        <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 bg-gray-800 border-2 border-pink-500 rounded-full flex items-center justify-center">
+                            <Ghost className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-white">Researcher_01</h2>
+                            <p className="text-sm text-gray-400">Arch User // Web3 Sec</p>
+                        </div>
+                        </div>
+                        
+                        <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex justify-between border-b border-gray-800 pb-1"><span>OS:</span><span className="text-pink-400">Endeavour OS</span></div>
+                        <div className="flex justify-between border-b border-gray-800 pb-1"><span>Status:</span><span className="text-green-400 animate-pulse">ONLINE</span></div>
+                        </div>
+                    </div>
+
+                    {/* Terminal */}
+                    <div className="border border-gray-700 bg-black p-4 font-mono text-xs h-64 overflow-hidden shadow-[0_0_15px_rgba(0,255,255,0.1)]">
+                        <div className="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
+                        <span className="text-gray-500 flex items-center gap-2"><Terminal size={12}/> /var/log/syslog</span>
+                        </div>
+                        <div className="space-y-1 text-green-500/80">
+                        {terminalLines.map((line, i) => (
+                            <div key={i} className="opacity-80">{line}</div>
+                        ))}
+                        <div className="animate-pulse">_</div>
+                        </div>
+                    </div>
+                    </aside>
+
+                    {/* Content */}
+                    <section className="lg:col-span-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+                        <Hash className="text-pink-500" />
+                        LATEST_INTEL
+                        </h2>
+                    </div>
+
+                    <div className="grid gap-6">
+                        {posts.map((post) => (
+                        <article key={post.id} className="group border border-gray-800 bg-gray-900/30 hover:bg-gray-900 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden p-6">
+                            <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                            <Layers size={12} className="text-pink-500"/>
+                            <span className="uppercase">{post.category}</span>
+                            <span className="text-gray-700">|</span>
+                            <span>{post.date}</span>
+                            </div>
+
+                            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                            {post.title}
+                            </h3>
+                            
+                            <p className="text-gray-400 mb-4">{post.excerpt}</p>
+
+                            <div className="flex justify-between items-center mt-6">
+                            <div className="flex gap-2">
+                                {post.tags.map(tag => (
+                                <span key={tag} className="text-xs bg-gray-800 text-cyan-300/70 px-2 py-0.5 rounded-sm">#{tag}</span>
+                                ))}
+                            </div>
+                            <button className="text-sm flex items-center gap-1 text-pink-500 hover:text-white transition-colors font-bold">
+                                READ_ENTRY <ChevronRight size={16} />
+                            </button>
+                            </div>
+                        </article>
+                        ))}
+                    </div>
+                    </section>
+                </main>
+                
+                <footer className="border-t border-gray-800 bg-gray-900 mt-12 py-8 text-center text-xs text-gray-500">
+                    <p>ENCRYPTED CONNECTION ESTABLISHED</p>
+                </footer>
+                </div>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<CyberBlog />);
+    </script>
+</body>
+</html>
