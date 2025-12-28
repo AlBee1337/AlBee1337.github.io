@@ -203,7 +203,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                if (activeTab === 'LOGS') {
+                if (activeTab === 'RESEARCH LOGS') {
                     return (
                         <>
                             <div className="flex items-center justify-between mb-6">
@@ -249,7 +249,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                if (activeTab === 'ABOUT') {
+                if (activeTab === 'WHOAMI') {
                     return (
                         <div className="border border-gray-800 bg-gray-900/30 p-8">
                             <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2"><Ghost className="text-pink-500"/> OPERATOR_PROFILE</h2>
@@ -311,7 +311,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     </div>
 
                     <nav className="hidden md:flex gap-8 text-sm font-bold">
-                        {['LOGS', 'ABOUT'].map((item) => (
+                        {['RESEARCH LOGS', 'WHOAMI'].map((item) => (
                         <button 
                             key={item}
                             onClick={() => handleNavClick(item)}
