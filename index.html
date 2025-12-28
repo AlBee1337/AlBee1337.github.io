@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0x_RESEARCH_LAB // SECURITY_BLOG</title>
     
-    <!-- 1. Tailwind CSS via CDN (Kein Build nötig) -->
+    <!-- 1. Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,7 +24,7 @@
     </script>
     
     <style>
-        /* Custom Scrollbar für den Arch-Look */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border: 1px solid #06b6d4; }
@@ -42,10 +42,8 @@
 </head>
 <body class="bg-black text-cyan-400 font-mono selection:bg-pink-600 selection:text-white overflow-x-hidden">
     
-    <!-- Hier wird die React App reingerendert -->
     <div id="root"></div>
 
-    <!-- 2. Import Map: Damit der Browser weiß, woher er React laden soll -->
     <script type="importmap">
     {
         "imports": {
@@ -56,15 +54,13 @@
     }
     </script>
 
-    <!-- 3. Babel Standalone: Übersetzt JSX im Browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- 4. Deine App Logik -->
     <script type="text/babel" data-type="module">
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
-        // Icons direkt importieren
-        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink } from 'lucide-react';
+        // Icons: Box für HTB, Flag für THM hinzugefügt
+        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink, Box, Flag } from 'lucide-react';
 
         const CyberBlog = () => {
             const [activeTab, setActiveTab] = useState('LOGS');
@@ -92,7 +88,6 @@
                 return () => clearInterval(interval);
             }, []);
 
-            // Erweiterte Daten mit Content (HTML simulation)
             const posts = [
                 {
                     id: 1,
@@ -157,10 +152,9 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                 }
             ];
 
-            // Funktion zum Wechseln der Ansicht
             const handleNavClick = (tab) => {
                 setActiveTab(tab);
-                setSelectedPost(null); // Reset post view wenn man Tab wechselt
+                setSelectedPost(null);
             };
 
             const handlePostClick = (post) => {
@@ -172,9 +166,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                 setSelectedPost(null);
             };
 
-            // Views Rendering Logic
             const renderContent = () => {
-                // 1. Detailansicht eines Posts
                 if (selectedPost) {
                     return (
                         <div className="animate-in fade-in duration-300">
@@ -186,7 +178,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                             </button>
 
                             <article className="border border-gray-800 bg-gray-900/30 p-8 relative overflow-hidden">
-                                {/* Header des Artikels */}
                                 <div className="border-b border-gray-800 pb-6 mb-8">
                                     <div className="flex flex-wrap gap-4 items-center text-xs text-gray-500 mb-4 uppercase tracking-widest">
                                         <span className="flex items-center gap-1 text-pink-400"><Layers size={12}/> {selectedPost.category}</span>
@@ -203,7 +194,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                                     </div>
                                 </div>
 
-                                {/* Inhalt (Simuliertes HTML Rendering) */}
                                 <div 
                                     className="prose-cyber text-gray-300"
                                     dangerouslySetInnerHTML={{ __html: selectedPost.content }}
@@ -213,7 +203,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                // 2. Tab: LOGS (Home / Blog Liste)
                 if (activeTab === 'LOGS') {
                     return (
                         <>
@@ -260,7 +249,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     );
                 }
 
-                // 3. Tab: ABOUT
                 if (activeTab === 'ABOUT') {
                     return (
                         <div className="border border-gray-800 bg-gray-900/30 p-8">
@@ -292,18 +280,6 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                         </div>
                     );
                 }
-
-                // 4. Tab: VULN_DB (Platzhalter)
-                if (activeTab === 'VULN_DB') {
-                    return (
-                        <div className="text-center py-20 border border-gray-800 border-dashed">
-                            <Activity className="w-16 h-16 text-gray-700 mx-auto mb-4 animate-pulse"/>
-                            <h2 className="text-xl font-bold text-gray-500">DATABASE_LOCKED</h2>
-                            <p className="text-gray-600 mt-2">Access Level insufficient. Please authenticate via PGP.</p>
-                        </div>
-                    );
-                }
-
             };
 
             return (
@@ -335,7 +311,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                     </div>
 
                     <nav className="hidden md:flex gap-8 text-sm font-bold">
-                        {['LOGS', 'ABOUT', 'VULN_DB', 'KEYS'].map((item) => (
+                        {['LOGS', 'ABOUT'].map((item) => (
                         <button 
                             key={item}
                             onClick={() => handleNavClick(item)}
@@ -359,7 +335,7 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                         </div>
                         <div>
                             <h2 className="text-xl font-bold text-white">AlBee</h2>
-                            <p className="text-sm text-gray-400">Web3 // Intelligence // Hunting // </p>
+                            <p className="text-sm text-gray-400">Web3 // Intelligence // Hunting</p>
                         </div>
                         </div>
                         
@@ -368,12 +344,12 @@ net.ipv4.conf.all.log_martians=1</code></pre>
                         <div className="flex justify-between border-b border-gray-800 pb-1"><span>Status:</span><span className="text-green-400 animate-pulse">HUNTING</span></div>
                         </div>
 
+                        {/* Social Icons Fixed: Box for HTB, Flag for THM */}
                          <div className="mt-6 flex gap-4 justify-center">
-                            <Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-                            <Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-                            <Hack the Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-                            <Try Hack Me className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-
+                            <Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" />
+                            <Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" />
+                            <Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box" />
+                            <Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" />
                         </div>
                     </div>
 
