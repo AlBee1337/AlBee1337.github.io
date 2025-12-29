@@ -126,23 +126,13 @@
             const posts = [
                 {
                     id: 1,
-                    title: "Reentrancy in Sui Move: An Analysis",
-                    date: "2025-09-10",
+                    title: "tbd",
+                    date: "tbd",
                     category: "Web3 Security",
-                    tags: ["Sui", "Move", "Smart Contracts"],
-                    excerpt: "Unlike Solidity, Move's storage model is object-based. This drastically changes the attack surface for reentrancy attacks...",
+                    tags: ["EVM", "Solidity", "Smart Contracts"],
+                    excerpt: "tbd",
                     content: `
-                        <h2>The Move Storage Model</h2>
-                        <p>In Solidity, storage is globally bound to the contract. In Sui Move, however, resources are objects owned by addresses. This means that a classic reentrancy attack, where an external call manipulates internal state before it is updated, is often not possible.</p>
-                        
-                        <h2>Where the Danger Lurks</h2>
-                        <p>Nevertheless, there are scenarios, especially with <code>dynamic fields</code> and shared objects, where race conditions can occur. Looking at the following code:</p>
-                        
-                        <pre><code>public fun withdraw(balance: &mut Coin<SUI>, amount: u64, ctx: &mut TxContext) {
-    // Vulnerable pattern analysis here...
-}</code></pre>
-                        
-                        <p>Sui's "Simple Transaction" model often protects us, but we must remain vigilant with complex DeFi interactions.</p>
+                    tbd
                     `
                 }
         
