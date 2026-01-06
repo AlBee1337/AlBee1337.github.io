@@ -60,7 +60,7 @@
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
         // Icons
-        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Ghost, Key, Fingerprint, ExternalLink, Box, Flag } from 'lucide-react';
+        import { Terminal, Shield, Cpu, Activity, Search, Hash, ChevronRight, ChevronLeft, Github, Twitter, Layers, Code, Key, Fingerprint, ExternalLink, Box, Flag} from 'lucide-react';
 
         // --- CUSTOM BEE SVG ICON ---
         const BeeIcon = ({ className }) => (
@@ -103,7 +103,6 @@
             const [glitch, setGlitch] = useState(false);
             const [terminalLines, setTerminalLines] = useState([
                 "> SYSTEM_INIT...",
-                "> KERNEL: 6.8.9-arch1-1",
                 "> LOADING_MODULES: [RUST, MOVE, ETH]...",
                 "> TARGET_ACQUIRED: LOCALHOST"
             ]);
@@ -238,10 +237,11 @@
                 if (activeTab === 'WHOAMI') {
                     return (
                         <div className="border border-gray-800 bg-gray-900/30 p-8">
-                            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2"><Ghost className="text-pink-500"/>PROFILE</h2>
+                            <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">PROFILE</h2>
                             <div className="space-y-4 text-gray-300 leading-relaxed">
-                                <p>Welcome to the Lab. I am a Cyber Security enthusiast.</p>
-                                <p>My goal is to find vulnerabilities in smart contracts (Sui/Move,Rust, Solidity) before others do.</p>
+                                <p>Welcome to my Research Logs. I am a cyber security enthusiast and want to become a Secuirty Researcher.</p>
+                                <p>My goal is to find vulnerabilities in smart contracts (Sui/Move,Rust, Solidity) and become a good Researcher primary in Web3</p>
+                                <p>I also like Cyber Threat Intelligence and Capture the Flags like Hack the Box.</p>
                                 <div className="mt-8 grid grid-cols-2 gap-4">
                                     <div className="p-4 border border-gray-700 bg-black/50">
                                         <h3 className="text-cyan-400 font-bold mb-2">LANGUAGES</h3>
@@ -358,10 +358,10 @@
 
                         {/* Social Icons Fixed: Box for HTB, Flag for THM */}
                          <div className="mt-6 flex gap-4 justify-center">
-                            <Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" />
-                            <Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" />
-                            <Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box" />
-                            <Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" />
+                            <a href="https://github.com/AlBee1337" aria-label="Github Profile"><Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" /></a>
+                            <a href="https://x.com/AlBee1337" aria-label="X Profile"><Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" /> </a>
+                            <a href="https://app.hackthebox.com/public/users/133591" aria-label="Hack The Box Profile"><Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box"/></a>
+                            <a href="https://tryhackme.com/p/AlBee" aria-label="Try Hack Me Profile"><Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" /></a>
                         </div>
                     </div>
 
@@ -384,10 +384,6 @@
                         {renderContent()}
                     </section>
                 </main>
-                
-                <footer className="border-t border-gray-800 bg-gray-900 mt-12 py-8 text-center text-xs text-gray-500">
-                    <p>RESEARCH CONNECTION ESTABLISHED</p>
-                </footer>
                 </div>
             );
         };
