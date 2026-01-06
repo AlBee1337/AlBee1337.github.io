@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALBEE_BLOG</title>
     
-    <!-- 1. Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -33,11 +32,13 @@
         
         /* Markdown-Simulation Styles */
         .prose-cyber h2 { color: #fff; font-size: 1.5rem; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; border-left: 4px solid #ec4899; padding-left: 1rem; }
+        .prose-cyber h3 { color: #22d3ee; font-size: 1.25rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; }
         .prose-cyber p { margin-bottom: 1.5rem; line-height: 1.7; color: #d1d5db; }
         .prose-cyber code { background: #1f2937; color: #22d3ee; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: monospace; }
         .prose-cyber pre { background: #111827; padding: 1rem; border: 1px solid #374151; overflow-x: auto; margin-bottom: 1.5rem; }
         .prose-cyber ul { list-style: square; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #9ca3af; }
         .prose-cyber li::marker { color: #ec4899; }
+        .prose-cyber a { color: #ec4899; text-decoration: underline; }
     </style>
 </head>
 <body class="bg-black text-cyan-400 font-mono selection:bg-pink-600 selection:text-white overflow-x-hidden">
@@ -101,12 +102,18 @@
             const [activeTab, setActiveTab] = useState('RESEARCH_LOGS');
             const [selectedPost, setSelectedPost] = useState(null);
             const [glitch, setGlitch] = useState(false);
+            
+            // Fetching States
+            const [postContent, setPostContent] = useState('');
+            const [isLoading, setIsLoading] = useState(false);
+            
             const [terminalLines, setTerminalLines] = useState([
                 "> SYSTEM_INIT...",
                 "> LOADING_MODULES: [RUST, MOVE, ETH]...",
                 "> TARGET_ACQUIRED: LOCALHOST"
             ]);
 
+            // Terminal Animation Effect
             useEffect(() => {
                 const interval = setInterval(() => {
                 const phrases = [
@@ -122,19 +129,43 @@
                 return () => clearInterval(interval);
             }, []);
 
+            // --- FETCHING LOGIC ADDED HERE ---
+            useEffect(() => {
+                if (selectedPost && selectedPost.file) {
+                    setIsLoading(true);
+                    setPostContent(''); // Clear previous content
+
+                    fetch(selectedPost.file)
+                        .then(response => {
+                            if (!response.ok) throw new Error("Failed to load post");
+                            return response.text();
+                        })
+                        .then(data => {
+                            setPostContent(data);
+                            setIsLoading(false);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            setPostContent(`<div class="text-pink-500 font-bold border border-pink-500 p-4">
+                                ERROR: COULD NOT DECRYPT DATA MODULE.<br/>
+                                <span class="text-xs text-gray-400">Ensure you are running a local server (python -m http.server) to load external files.</span>
+                            </div>`);
+                            setIsLoading(false);
+                        });
+                }
+            }, [selectedPost]);
+
+
             const posts = [
                 {
                     id: 1,
-                    title: "tbd",
-                    date: "tbd",
+                    title: "Coming Soon",
+                    date: "2025-05-24",
                     category: "Web3 Security",
                     tags: ["EVM", "Solidity", "Smart Contracts"],
-                    excerpt: "tbd",
-                    content: `
-                    tbd
-                    `
+                    excerpt: "First entry placeholder.",
+                    file: "./posts/tbd.html"
                 }
-        
             ];
 
             const handleNavClick = (tab) => {
@@ -149,6 +180,7 @@
 
             const handleBack = () => {
                 setSelectedPost(null);
+                setPostContent('');
             };
 
             const renderContent = () => {
@@ -179,10 +211,18 @@
                                     </div>
                                 </div>
 
-                                <div 
-                                    className="prose-cyber text-gray-300"
-                                    dangerouslySetInnerHTML={{ __html: selectedPost.content }}
-                                />
+                                {/* --- LOADING STATE & CONTENT RENDERING --- */}
+                                {isLoading ? (
+                                    <div className="h-64 flex flex-col items-center justify-center text-pink-500 font-mono">
+                                        <Activity className="w-8 h-8 mb-4 animate-spin" />
+                                        <span className="animate-pulse"> DECRYPTING_DATA_STREAM...</span>
+                                    </div>
+                                ) : (
+                                    <div 
+                                        className="prose-cyber text-gray-300"
+                                        dangerouslySetInnerHTML={{ __html: postContent }}
+                                    />
+                                )}
                             </article>
                         </div>
                     );
@@ -303,7 +343,7 @@
                     }}>
                 </div>
                 
-                {/* Header - Z-Index auf 50 erhöht und relative entfernt (da sticky reicht) */}
+                {/* Header */}
                 <header className="sticky top-0 z-50 border-b-2 border-pink-600 bg-gray-900/90 backdrop-blur-sm">
                     <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                     <div 
@@ -312,7 +352,6 @@
                         onMouseLeave={() => setGlitch(false)}
                         onClick={() => handleNavClick('RESEARCH_LOGS')}
                     >
-                        {/* Custom Bee Icon embedded here */}
                         <BeeIcon className={`w-8 h-8 text-pink-500 transition-transform ${glitch ? 'animate-pulse' : ''}`} />
                         <div>
                         <h1 className="text-2xl font-bold tracking-tighter text-white" style={{ textShadow: '2px 2px 0px #ff00ff' }}>
@@ -341,7 +380,7 @@
                     <aside className="lg:col-span-4 space-y-8">
                     <div className="border border-cyan-500/30 bg-gray-900/50 p-6 relative">
                         <div className="flex items-center gap-4 mb-4">
-                        {/* Profile Image Section Updated */}
+                        {/* Profile Image */}
                         <div className="w-16 h-16 bg-gray-800 border-2 border-pink-500 rounded-full overflow-hidden">
                              <img src="./albee.png" alt="AlBee Profile" className="w-full h-full object-cover" />
                         </div>
@@ -356,12 +395,12 @@
                         <div className="flex justify-between border-b border-gray-800 pb-1"><span>Status:</span><span className="text-green-400 animate-pulse">HUNTING</span></div>
                         </div>
 
-                        {/* Social Icons Fixed: Box for HTB, Flag for THM */}
+                        {/* Social Icons Fixed with Links */}
                          <div className="mt-6 flex gap-4 justify-center">
-                            <a href="https://github.com/AlBee1337" aria-label="Github Profile"><Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" /></a>
-                            <a href="https://x.com/AlBee1337" aria-label="X Profile"><Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" /> </a>
-                            <a href="https://app.hackthebox.com/public/users/133591" aria-label="Hack The Box Profile"><Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box"/></a>
-                            <a href="https://tryhackme.com/p/AlBee" aria-label="Try Hack Me Profile"><Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" /></a>
+                            <a href="https://github.com/AlBee1337" target="_blank" rel="noopener noreferrer" aria-label="Github Profile"><Github className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="GitHub" /></a>
+                            <a href="https://x.com/AlBee1337" target="_blank" rel="noopener noreferrer" aria-label="X Profile"><Twitter className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Twitter" /> </a>
+                            <a href="https://app.hackthebox.com/public/users/133591" target="_blank" rel="noopener noreferrer" aria-label="Hack The Box Profile"><Box className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="Hack The Box"/></a>
+                            <a href="https://tryhackme.com/p/AlBee" target="_blank" rel="noopener noreferrer" aria-label="Try Hack Me Profile"><Flag className="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" title="TryHackMe" /></a>
                         </div>
                     </div>
 
